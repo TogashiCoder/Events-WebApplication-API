@@ -7,6 +7,9 @@ import com.goldenbull.hello_event_api.repository.UserRepository;
 import com.goldenbull.hello_event_api.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepository ;
@@ -22,8 +25,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public UserDTO createUser(UserDTO user) {
-        System.out.println(user);
+    public UserDTO createUser(UserDTO user)
+    {
         return userMapper.toDTO(userRepository.save(userMapper.toEntity(user))) ;
     }
 
@@ -58,4 +61,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    //for spring security
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(()-> new UsernameNotFoundException("User not found"));
+    }
 }

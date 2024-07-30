@@ -2,8 +2,11 @@ package com.goldenbull.hello_event_api.controller;
 
 
 
+import com.goldenbull.hello_event_api.model.AuthenticationResponse;
 import com.goldenbull.hello_event_api.model.DTO.UserDTO;
+import com.goldenbull.hello_event_api.service.AuthenticationService;
 import com.goldenbull.hello_event_api.service.implementation.UserServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,18 +14,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
+    private final AuthenticationService authenticationService;
 
-    @PostMapping("/register")
-    public UserDTO createUser(@RequestBody UserDTO userDTO) {
-        return userService.createUser(userDTO);
-    }
 
-    @GetMapping("/All")
+
+    @GetMapping("/admin/All")
     public List<UserDTO> getAllUsers(){
         return userService.getAllUsers();
     }

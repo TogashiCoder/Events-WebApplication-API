@@ -19,7 +19,7 @@ public class EventController {
     @Autowired
     private EventServiceImpl eventService ;
 
-    @PostMapping("/create")
+    @PostMapping("/admin/create")
     public EventDTO createEvent(@RequestBody EventDTO event){
         return eventService.createEvent(event);
     }
@@ -29,12 +29,12 @@ public class EventController {
         return eventService.getAllEvents();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public EventDTO updateEvent(@RequestBody EventDTO eventDTO, @PathVariable Long id){
         return  eventService.updateEvent(eventDTO, id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public void deleteEvent(@PathVariable Long id){
         eventService.deleteEvent(id);
     }
